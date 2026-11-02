@@ -14,6 +14,20 @@ Chord Lab is a small Godot mixed-reality music education project for Meta Quest.
 
 ![Desktop preview of the three-note foundation](docs/images/foundation-desktop.png)
 
+### Technology and Interaction
+
+- **Game engine:** Godot 4.7, using GDScript.
+- **XR framework:** OpenXR with native Godot XR nodes.
+- **Target hardware:** Meta Quest.
+- **Interaction:** Controller-based ray pointing and trigger selection, using a custom interaction system.
+- **Audio:** WAV sample playback through Godot's audio system.
+- **Visual feedback:** Interactive 3D keyboard meshes, materials, text labels and tweens.
+- **Future functionality:** Chord validation, guided lessons and optional passthrough mixed reality.
+
+### Team
+
+This is an individual project.
+
 ## Instructions for use
 
 1. Import `project.godot` into **Godot 4.7.2 Standard**, matching the version used for local verification.
