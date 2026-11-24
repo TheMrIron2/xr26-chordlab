@@ -63,7 +63,7 @@ func _bind(profile: OpenXRInteractionProfile, action: OpenXRAction, path: String
 
 func _create_note_samples() -> void:
 	DirAccess.make_dir_recursive_absolute("res://assets/audio")
-	for midi_note in [60, 64, 67]:
+	for midi_note in range(60, 75):
 		var sample := AudioStreamWAV.new()
 		sample.format = AudioStreamWAV.FORMAT_16_BITS
 		sample.mix_rate = 44100

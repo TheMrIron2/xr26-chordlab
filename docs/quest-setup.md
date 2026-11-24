@@ -1,8 +1,6 @@
 # Quest setup and deployment
 
-The committed `Meta Quest` Android preset selects **OpenXR**, **arm64-v8a**, and package `org.chordlab.app`. It uses Godot 4.7.2's built-in OpenXR loader and a normal APK template export, without Gradle or a vendor plugin. This is the smallest setup for the controller-only VR foundation. The native loader is supported from Godot 4.6 onwards; vendor-specific features can be added later. See [Godot's XR deployment documentation](https://docs.godotengine.org/en/stable/tutorials/xr/deploying_to_android.html).
-
-Passthrough is deferred. Adding OpenXR Vendors later may require a matching plugin version, the Android build template, Gradle, and the Meta export features. Do not enable unrelated hand-tracking or scene-mapping features for the foundation.
+The committed `Meta Quest` Android preset selects **OpenXR**, **arm64-v8a**, and package `org.chordlab.app`. It uses the prebuilt APK templates with Gradle disabled. Godot 4.6 and later support direct Android XR export, so try this preset first. If the APK installs but fails to launch in immersive XR, check the OpenXR startup log and try Godot's documented device-specific Gradle setup with the Meta option from OpenXR Vendors. [Godot 4.7 XR deployment](https://docs.godotengine.org/en/4.7/tutorials/xr/deploying_to_android.html)
 
 ## Prepare the development machine
 
@@ -33,21 +31,19 @@ See [Android export instructions](https://docs.godotengine.org/en/stable/tutoria
 
 If `adb` is not on PATH, use its full path. The SDK found on this development machine is `C:\Users\dwelc\AppData\Local\Android\Sdk`; that machine-specific path is not saved into the project.
 
-## Milestone 1 hardware checks
+## Keyboard hardware checks
 
 Record the Quest model, OS version, Godot version, date, and outcome in `development-log.md`.
 
 - The application starts in immersive XR with head tracking and the opaque background.
-- Both controller rays track the aim direction, hit each note, and disappear when tracking is lost.
+- Both controller rays track the aim direction and disappear when tracking is lost. Check all keys from C4 to D5, including the black keys and the white keys immediately beside them.
 - One trigger squeeze toggles one note. Holding it does not toggle repeatedly; releasing then pressing permits another selection.
-- C4, E4 and G4 each produce audible, distinct notes without clicks or uncomfortable volume.
-- A/X plays selected notes together; B/Y clears highlights and stops playback.
+- All pitches produce distinct audible notes at a comfortable volume.
+- A/X plays selected notes together and identifies C major and C minor. Try adding a fourth key to hear the selection and check the feedback. B/Y clears highlights and stops playback.
 - Grip repositions the station correctly when standing, seated, or facing another direction.
 - Text is readable and keys are easy to target at the actual headset resolution.
 - Removing and replacing the headset, recentering, and relaunching do not break interaction.
 
-**Milestone 1 is complete only after these checks pass on the Quest.** Desktop rendering and synthetic tracker tests are development checks, not evidence of headset compatibility.
-
 ## Current verification limits
 
-On 9 October 2026, the Android SDK and ADB were found, but `adb devices -l` listed no connected device. A debug export attempt reported missing Godot 4.7.2 Android templates and an unconfigured Java SDK path in Editor Settings. No APK was produced or installed. Audio assets load and playback starts in automated checks; audible output must be checked by a person.
+On 24 November 2026, the Android SDK and Android Studio's bundled JDK were present. The debug exporter reported missing Godot 4.7.2 Android templates and a blank Java SDK path in Editor Settings. ADB listed zero devices. APK export, installation, immersive startup, target comfort, and audible volume checks remain pending.

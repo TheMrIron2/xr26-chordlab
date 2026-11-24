@@ -13,7 +13,7 @@ const RELEASE_THRESHOLD := 0.3
 var enabled := false
 var _trigger_held := false
 var _grip_held := false
-var _hovered_key: KeyboardKey
+var _hovered_target: RayTarget
 var _source: StringName
 
 @onready var ray: RayCast3D = $RayCast3D
@@ -38,8 +38,8 @@ func _physics_process(_delta: float) -> void:
 		return
 	_set_visuals_visible(true)
 	ray.force_raycast_update()
-	var key := ray.get_collider() as KeyboardKey if ray.is_colliding() else null
-	_set_hover(key)
+	var target := ray.get_collider() as RayTarget if ray.is_colliding() else null
+	_set_hover(target)
 	var distance := RAY_LENGTH
 	if ray.is_colliding():
 		distance = global_position.distance_to(ray.get_collision_point())
@@ -49,8 +49,8 @@ func _physics_process(_delta: float) -> void:
 	var trigger := get_float(&"select")
 	if trigger >= PRESS_THRESHOLD and not _trigger_held:
 		_trigger_held = true
-		if _hovered_key:
-			_hovered_key.activate()
+		if _hovered_target:
+			_hovered_target.activate()
 	elif trigger <= RELEASE_THRESHOLD:
 		_trigger_held = false
 	var grip := get_float(&"reposition")
@@ -61,14 +61,14 @@ func _physics_process(_delta: float) -> void:
 		_grip_held = false
 
 
-func _set_hover(key: KeyboardKey) -> void:
-	if key == _hovered_key:
+func _set_hover(target: RayTarget) -> void:
+	if target == _hovered_target:
 		return
-	if is_instance_valid(_hovered_key):
-		_hovered_key.set_hovered(_source, false)
-	_hovered_key = key
-	if _hovered_key:
-		_hovered_key.set_hovered(_source, true)
+	if is_instance_valid(_hovered_target):
+		_hovered_target.set_hovered(_source, false)
+	_hovered_target = target
+	if target:
+		target.set_hovered(_source, true)
 
 
 func _set_visuals_visible(value: bool) -> void:

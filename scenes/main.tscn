@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://scripts/audio_manager.gd" id="2_audio"]
 [ext_resource type="PackedScene" path="res://scenes/controller_pointer.tscn" id="3_pointer"]
-[ext_resource type="PackedScene" path="res://scenes/keyboard_key.tscn" id="4_key"]
+[ext_resource type="Script" path="res://scripts/lesson_flow.gd" id="4_lesson"]
 
 [sub_resource type="Environment" id="Environment_lab"]
 background_mode = 1
@@ -19,7 +19,7 @@ roughness = 0.7
 
 [sub_resource type="BoxMesh" id="Mesh_base"]
 material = SubResource("Material_base")
-size = Vector3(0.66, 0.075, 0.43)
+size = Vector3(1.04, 0.075, 0.43)
 
 [sub_resource type="StandardMaterial3D" id="Material_trim"]
 shading_mode = 0
@@ -27,7 +27,7 @@ albedo_color = Color(0.41, 0.87, 0.75, 1)
 
 [sub_resource type="BoxMesh" id="Mesh_trim"]
 material = SubResource("Material_trim")
-size = Vector3(0.62, 0.006, 0.008)
+size = Vector3(1.0, 0.006, 0.008)
 
 [sub_resource type="StandardMaterial3D" id="Material_panel"]
 shading_mode = 0
@@ -35,7 +35,7 @@ albedo_color = Color(0.055, 0.075, 0.11, 1)
 
 [sub_resource type="BoxMesh" id="Mesh_panel"]
 material = SubResource("Material_panel")
-size = Vector3(0.87, 0.49, 0.022)
+size = Vector3(0.99, 0.60, 0.022)
 
 [sub_resource type="StandardMaterial3D" id="Material_floor"]
 albedo_color = Color(0.035, 0.05, 0.08, 1)
@@ -86,8 +86,8 @@ tracker = &"right_hand"
 pose = &"aim"
 
 [node name="DesktopCamera" type="Camera3D" parent="."]
-position = Vector3(0, 1.75, 0.65)
-rotation_degrees = Vector3(-14, 0, 0)
+position = Vector3(0, 1.98, 0.65)
+rotation_degrees = Vector3(-22, 0, 0)
 fov = 50.0
 near = 0.05
 far = 50.0
@@ -109,26 +109,6 @@ mesh = SubResource("Mesh_trim")
 
 [node name="Keys" type="Node3D" parent="Station"]
 
-[node name="C4" parent="Station/Keys" instance=ExtResource("4_key")]
-position = Vector3(-0.2, 0, 0)
-midi_note = 60
-note_name = "C4"
-role_name = "ROOT"
-accent_color = Color(0.41, 0.87, 0.75, 1)
-
-[node name="E4" parent="Station/Keys" instance=ExtResource("4_key")]
-midi_note = 64
-note_name = "E4"
-role_name = "THIRD"
-accent_color = Color(0.5, 0.68, 1, 1)
-
-[node name="G4" parent="Station/Keys" instance=ExtResource("4_key")]
-position = Vector3(0.2, 0, 0)
-midi_note = 67
-note_name = "G4"
-role_name = "FIFTH"
-accent_color = Color(1, 0.76, 0.43, 1)
-
 [node name="Selection" type="Label3D" parent="Station"]
 position = Vector3(0, -0.08, 0.23)
 pixel_size = 0.00075
@@ -138,46 +118,44 @@ modulate = Color(0.7, 0.79, 0.87, 1)
 text = "No notes selected"
 
 [node name="Panel" type="Node3D" parent="Station"]
-position = Vector3(0, 0.52, -0.25)
+position = Vector3(0, 0.50, -0.25)
 
 [node name="Background" type="MeshInstance3D" parent="Station/Panel"]
 mesh = SubResource("Mesh_panel")
 
 [node name="Eyebrow" type="Label3D" parent="Station/Panel"]
-position = Vector3(0, 0.186, 0.015)
-pixel_size = 0.00075
-font_size = 22
-outline_size = 0
-modulate = Color(0.41, 0.87, 0.75, 1)
-text = "CHORD LAB  /  FIRST NOTES"
-
-[node name="Title" type="Label3D" parent="Station/Panel"]
-position = Vector3(0, 0.13, 0.015)
-pixel_size = 0.00075
-font_size = 44
-outline_size = 0
-text = "Three notes. One chord."
-
-[node name="Explanation" type="Label3D" parent="Station/Panel"]
-position = Vector3(0, 0.063, 0.015)
+position = Vector3(0, 0.238, 0.015)
 pixel_size = 0.00075
 font_size = 28
 outline_size = 0
+modulate = Color(0.41, 0.87, 0.75, 1)
+
+[node name="Title" type="Label3D" parent="Station/Panel"]
+position = Vector3(0, 0.165, 0.015)
+pixel_size = 0.00075
+font_size = 51
+outline_size = 0
+
+[node name="Explanation" type="Label3D" parent="Station/Panel"]
+position = Vector3(0, 0.045, 0.015)
+pixel_size = 0.00075
+font_size = 40
+outline_size = 0
 modulate = Color(0.76, 0.83, 0.91, 1)
-text = "C + E + G make C major.\nHear each note, then try them together."
 
 [node name="Instructions" type="Label3D" parent="Station/Panel"]
-position = Vector3(0, -0.044, 0.015)
+position = Vector3(0, -0.253, 0.015)
 pixel_size = 0.00075
-font_size = 27
+font_size = 26
 outline_size = 0
 modulate = Color(0.76, 0.83, 0.91, 1)
-text = "Point + trigger: select a note\nA / X: hear selection   B / Y: clear\nGrip: place the keys in front of you"
 
 [node name="Status" type="Label3D" parent="Station/Panel"]
-position = Vector3(0, -0.173, 0.015)
+position = Vector3(0, -0.085, 0.015)
 pixel_size = 0.0007
-font_size = 25
+font_size = 38
 outline_size = 0
 modulate = Color(0.41, 0.87, 0.75, 1)
-text = "Choose a note to hear it."
+
+[node name="LessonFlow" type="Node" parent="."]
+script = ExtResource("4_lesson")
