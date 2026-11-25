@@ -42,6 +42,7 @@ func _run() -> void:
 		_check(key.flat_name.is_empty() != BLACK_NOTES.has(key.midi_note), "Piano layout correctly classifies " + key.note_name)
 	_check(keys[3].note_label.text == "D♯4\nE♭4", "Black keys display sharp and flat names")
 	_check_validator()
+	_check_audio_samples()
 	_check_head_tracking(lab)
 	lab.lesson.enter_free_play()
 	_check_desktop(lab, keys)
@@ -53,6 +54,14 @@ func _run() -> void:
 	lab.queue_free()
 	await process_frame
 	quit(0 if _failures == 0 else 1)
+
+
+func _check_audio_samples() -> void:
+	var names := ["C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4", "C5", "C#5", "D5"]
+	for index in range(names.size()):
+		var sample: AudioStream = AudioManager.SAMPLES.get(60 + index)
+		_check(sample != null and sample.resource_path == "res://assets/audio/" + names[index] + ".wav",
+			"MIDI note %d uses the %s recording" % [60 + index, names[index]])
 
 
 func _check_head_tracking(lab: ChordLab) -> void:

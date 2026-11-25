@@ -1,5 +1,5 @@
 extends SceneTree
-## Offline setup only. Runtime audio uses the generated WAV files.
+## Offline setup only. Runtime audio uses the recorded keyboard WAV files.
 
 
 func _initialize() -> void:

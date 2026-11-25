@@ -3,21 +3,21 @@ extends Node
 ## Packaged samples with enough playback voices to hear the entire keyboard together.
 
 const SAMPLES := {
-	60: preload("res://assets/audio/note_60.wav"),
-	61: preload("res://assets/audio/note_61.wav"),
-	62: preload("res://assets/audio/note_62.wav"),
-	63: preload("res://assets/audio/note_63.wav"),
-	64: preload("res://assets/audio/note_64.wav"),
-	65: preload("res://assets/audio/note_65.wav"),
-	66: preload("res://assets/audio/note_66.wav"),
-	67: preload("res://assets/audio/note_67.wav"),
-	68: preload("res://assets/audio/note_68.wav"),
-	69: preload("res://assets/audio/note_69.wav"),
-	70: preload("res://assets/audio/note_70.wav"),
-	71: preload("res://assets/audio/note_71.wav"),
-	72: preload("res://assets/audio/note_72.wav"),
-	73: preload("res://assets/audio/note_73.wav"),
-	74: preload("res://assets/audio/note_74.wav"),
+	60: preload("res://assets/audio/C4.wav"),
+	61: preload("res://assets/audio/C#4.wav"),
+	62: preload("res://assets/audio/D4.wav"),
+	63: preload("res://assets/audio/D#4.wav"),
+	64: preload("res://assets/audio/E4.wav"),
+	65: preload("res://assets/audio/F4.wav"),
+	66: preload("res://assets/audio/F#4.wav"),
+	67: preload("res://assets/audio/G4.wav"),
+	68: preload("res://assets/audio/G#4.wav"),
+	69: preload("res://assets/audio/A4.wav"),
+	70: preload("res://assets/audio/A#4.wav"),
+	71: preload("res://assets/audio/B4.wav"),
+	72: preload("res://assets/audio/C5.wav"),
+	73: preload("res://assets/audio/C#5.wav"),
+	74: preload("res://assets/audio/D5.wav"),
 }
 const NOTE_VOLUME_DB := -10.0
 
