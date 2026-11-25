@@ -4,6 +4,8 @@ Name: Daniel Welch
 
 Student Number: C23732441
 
+Class: TU856/4
+
 Project for Games Engines 1 / Extended Reality
 
 ## Description of the project
@@ -86,8 +88,14 @@ Run the smoke suite in an imported project with `godot --headless --path . --xr-
 
 ## What I am most proud of in the assignment
 
-We'll see!
+I'm proud of using real, recorded audio for the keyboard samples. I recorded samples of C4 through D5 from my VST (software plugin) of the Roland XV-5080's "MIDIed Grand" preset, which is one I personally like. It was a fun challenge creating the virtual keyboard and constructing the chord lesson. I had to stop myself adding more variants like suspended chords or extensions - it would have been fun!
 
 ## What I learned
 
-We'll see!
+Having previously worked primarily with conventional game development and graphics programming, this project introduced me to the particular considerations involved in developing for XR.
+
+I gained experience with Godot's OpenXR implementation, including headset tracking, controller action maps and ray-based interaction with objects in 3D space. Testing through Meta XR Simulator also helped me understand the relationship between the game engine, graphics API and OpenXR runtime, particularly when resolving compatibility issues between rendering backends.
+
+Developing Chord Lab also required me to consider how an interactive application could teach a subject rather than simply entertain. As someone with a music background, I had to consider how to communicate concepts that are familiar to me in a way that is accessible to a complete beginner! This informed the progression from demonstrations to guided exercises and independent practice.
+
+Finally, I learned the importance of maintaining a desktop fallback and separating application logic from hardware-specific interactions. This allowed development and testing to continue without constant access to a physical headset.
