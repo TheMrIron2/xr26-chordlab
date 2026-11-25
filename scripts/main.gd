@@ -74,7 +74,7 @@ func _build_keyboard() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if xr_active:
-		if _needs_placement and head.get_has_tracking_data():
+		if _needs_placement and _head_has_tracking_data():
 			reposition_station()
 	else:
 		_update_desktop_hover()
@@ -157,8 +157,16 @@ func pitch_name(midi_note: int) -> String:
 	return NOTE_NAMES[midi_note % 12]
 
 
+func _head_has_tracking_data() -> bool:
+	var tracker := XRServer.get_tracker(&"head") as XRPositionalTracker
+	if tracker == null or not tracker.has_pose(&"default"):
+		return false
+	var pose := tracker.get_pose(&"default")
+	return pose.has_tracking_data and pose.tracking_confidence != XRPose.XR_TRACKING_CONFIDENCE_NONE
+
+
 func reposition_station() -> void:
-	if not xr_active or not head.get_has_tracking_data():
+	if not xr_active or not _head_has_tracking_data():
 		return
 	var forward := -head.global_basis.z
 	forward.y = 0.0

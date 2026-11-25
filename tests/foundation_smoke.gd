@@ -42,6 +42,7 @@ func _run() -> void:
 		_check(key.flat_name.is_empty() != BLACK_NOTES.has(key.midi_note), "Piano layout correctly classifies " + key.note_name)
 	_check(keys[3].note_label.text == "D♯4\nE♭4", "Black keys display sharp and flat names")
 	_check_validator()
+	_check_head_tracking(lab)
 	lab.lesson.enter_free_play()
 	_check_desktop(lab, keys)
 	await _check_controller(lab, keys, &"right_hand", XRPositionalTracker.TRACKER_HAND_RIGHT, "RightHand", 0.2)
@@ -52,6 +53,50 @@ func _run() -> void:
 	lab.queue_free()
 	await process_frame
 	quit(0 if _failures == 0 else 1)
+
+
+func _check_head_tracking(lab: ChordLab) -> void:
+	var original_station := lab.station.global_transform
+	var original_head := lab.head.transform
+	lab.xr_active = true
+	lab._needs_placement = true
+	lab._physics_process(0.0)
+	_check(lab._needs_placement and lab.station.global_transform == original_station,
+		"Initial placement waits when the head tracker is unavailable")
+	var tracker := XRPositionalTracker.new()
+	tracker.type = XRServer.TRACKER_HEAD
+	tracker.name = &"head"
+	XRServer.add_tracker(tracker)
+	lab._physics_process(0.0)
+	_check(lab._needs_placement and lab.station.global_transform == original_station,
+		"Initial placement waits when the head pose is unavailable")
+	tracker.set_pose(&"default", Transform3D.IDENTITY, Vector3.ZERO, Vector3.ZERO, XRPose.XR_TRACKING_CONFIDENCE_NONE)
+	lab._physics_process(0.0)
+	_check(lab._needs_placement and lab.station.global_transform == original_station,
+		"Initial placement waits when the head pose has no tracking confidence")
+	tracker.set_pose(&"default", Transform3D.IDENTITY, Vector3.ZERO, Vector3.ZERO, XRPose.XR_TRACKING_CONFIDENCE_HIGH)
+	lab.head.transform = Transform3D(Basis.IDENTITY, Vector3(1, 1.6, 2))
+	lab._physics_process(0.0)
+	_check(not lab._needs_placement and lab.station.global_position.is_equal_approx(Vector3(1, 1.1, 1.2)),
+		"A valid head pose triggers initial placement")
+	var placed := lab.station.global_transform
+	tracker.set_pose(&"default", Transform3D.IDENTITY, Vector3.ZERO, Vector3.ZERO, XRPose.XR_TRACKING_CONFIDENCE_NONE)
+	lab.head.position.x += 1.0
+	var pointer := lab.xr_origin.get_node("RightHand") as ControllerPointer
+	pointer.reposition_requested.emit()
+	_check(lab.station.global_transform == placed, "Grip cannot reposition after head tracking is lost")
+	tracker.invalidate_pose(&"default")
+	pointer.reposition_requested.emit()
+	_check(lab.station.global_transform == placed, "Grip cannot reposition with an invalidated head pose")
+	tracker.set_pose(&"default", Transform3D.IDENTITY, Vector3.ZERO, Vector3.ZERO, XRPose.XR_TRACKING_CONFIDENCE_HIGH)
+	lab.head.position = Vector3(2, 1.6, 2)
+	pointer.reposition_requested.emit()
+	_check(lab.station.global_position.is_equal_approx(Vector3(2, 1.1, 1.2)),
+		"Grip repositions after head tracking returns")
+	XRServer.remove_tracker(tracker)
+	lab.xr_active = false
+	lab.head.transform = original_head
+	lab.station.global_transform = original_station
 
 
 func _check_lessons(lab: ChordLab, keys: Array[KeyboardKey]) -> void:
