@@ -10,7 +10,7 @@ Project for Games Engines 1 / Extended Reality
 
 ## Description of the project
 
-Chord Lab is a small Godot XR music education project for Meta Quest. Its intended 3–5 minute experience teaches beginners how the root, third and fifth form a triad, how lowering the third changes a major chord into a minor chord, and how to build simple chords on a virtual keyboard.
+Chord Lab is a small Godot XR music education project for Meta Quest. Its intended 3–5 minute experience teaches beginners how the root, third and fifth form a triad, how lowering the third changes a major chord into a minor chord, and how to build simple chords on a virtual keyboard. (Original proposal in `docs/PROPOSAL.md`)
 
 ## Demonstration
 
@@ -45,15 +45,7 @@ This is an individual project.
 | Clear selection and stop playback | **C** | **B** or **Y** |
 | Place keyboard in front of the viewer | Fixed preview position | Squeeze either grip |
 
-Selecting a note plays it; deselecting removes its highlight. Release the trigger before selecting another note. The keyboard is placed when the first valid head pose arrives, 0.8 m ahead and 0.5 m below eye level, with the instruction panel above it. Grip repositions it for a new facing direction or seated height. Actual comfort and readability require headset testing.
-
-To force desktop mode with a headset runtime installed:
-
-```powershell
-godot --path . --xr-mode off
-```
-
-Make sure Godot is in PATH for this! Otherwise just use the full executable.
+To force desktop mode with a headset runtime installed run `godot --path . --xr-mode off`. Make sure Godot is in PATH for this! Otherwise just use the full executable.
 
 ## How it works
 
@@ -62,8 +54,6 @@ Make sure Godot is in PATH for this! Otherwise just use the full executable.
 `LessonData` defines the prompts, demonstrations and exercises. `LessonFlow` plays the examples, manages progress and records independent practice results. Colours distinguish the guidance notes.
 
 `ChordValidator.matches()` checks a selection against the exercise root and quality. It compares semitone intervals modulo 12 with 0–4–7 for major or 0–3–7 for minor. Exactly three notes are required. Inversions and octave substitutions work, and a fourth key counts as an extra note even when it doubles a chord tone.
-
-Run the smoke suite in an imported project with `godot --headless --path . --xr-mode off --script res://tests/foundation_smoke.gd`. For screenshots, omit `--headless` and append `-- --capture-lessons`. Captures appear in `builds/lesson-review`. See the [Quest deployment guide](docs/quest-setup.md) for the hardware checks.
 
 ## List of classes and assets
 
