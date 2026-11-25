@@ -4,7 +4,6 @@ extends SceneTree
 
 func _initialize() -> void:
 	_create_action_map()
-	_create_note_samples()
 	quit()
 
 
@@ -59,26 +58,3 @@ func _bind(profile: OpenXRInteractionProfile, action: OpenXRAction, path: String
 	var bindings := profile.bindings.duplicate()
 	bindings.append(binding)
 	profile.bindings = bindings
-
-
-func _create_note_samples() -> void:
-	DirAccess.make_dir_recursive_absolute("res://assets/audio")
-	for midi_note in range(60, 75):
-		var sample := AudioStreamWAV.new()
-		sample.format = AudioStreamWAV.FORMAT_16_BITS
-		sample.mix_rate = 44100
-		var duration := 1.6
-		var frame_count := int(duration * sample.mix_rate)
-		var pcm := PackedByteArray()
-		pcm.resize(frame_count * 2)
-		var frequency := 440.0 * pow(2.0, (midi_note - 69) / 12.0)
-		for frame in range(frame_count):
-			var time := float(frame) / sample.mix_rate
-			var envelope := minf(time / 0.008, 1.0) * exp(-3.5 * time)
-			envelope *= minf((duration - time) / 0.05, 1.0)
-			var tone := sin(TAU * frequency * time) + 0.25 * sin(TAU * frequency * 2.0 * time)
-			var value := int(tone * envelope * 0.38 * 32767.0)
-			pcm.encode_s16(frame * 2, value)
-		sample.data = pcm
-		var save_error := sample.save_to_wav("res://assets/audio/note_%d.wav" % midi_note)
-		assert(save_error == OK, "Could not save note sample")
