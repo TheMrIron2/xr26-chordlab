@@ -1,5 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
-/builds/
 /export_credentials.cfg
+/builds/*
+!/builds/.gdignore
+!/builds/chordlab.apk
