@@ -10,7 +10,7 @@ Project for Games Engines 1 / Extended Reality
 
 ## Description of the project
 
-Chord Lab is a small Godot XR music education project for Meta Quest. Its intended 3–5 minute experience teaches beginners how the root, third and fifth form a triad, how lowering the third changes a major chord into a minor chord, and how to build simple chords on a virtual keyboard. (Original proposal in `docs/PROPOSAL.md`)
+Chord Lab is a small Godot XR music education project for Meta Quest. Its intended 3-5 min experience teaches beginners how the root, third and fifth form a triad, how lowering the third changes a major chord into a minor chord, and how to build simple chords. (Original proposal in `docs/PROPOSAL.md`)
 
 ## Demonstration
 
@@ -20,11 +20,11 @@ The following video demonstrates the complete Chord Lab experience using Meta XR
 
 ### Technology and Interaction
 
-- **Game engine:** Godot 4.7, using GDScript.
+- **Game engine:** Godot 4.7.2 (GDScript)
 - **XR framework:** OpenXR with native Godot XR nodes.
 - **Target hardware:** Meta Quest.
 - **Interaction:** Controller-based ray pointing and trigger selection, using a custom interaction system.
-- **Audio:** WAV sample playback through Godot's audio system.
+- **Audio:** WAV samples using Godot's audio system.
 - **Visual feedback:** Interactive 3D keyboard meshes, materials, text labels and tweens.
 
 ### Team
@@ -33,27 +33,17 @@ This is an individual project.
 
 ## Instructions for use
 
-1. Import `project.godot` into **Godot 4.7.2 Standard**, matching the version used for local verification.
-2. Wait for the WAV assets to import, then press **F6** with `scenes/main.tscn` open or **F5** to run the project. Without an initialised OpenXR runtime, the scene uses a desktop camera.
-3. Choose **Play demo** to begin. Select the chord notes and press **Check answer**. **Hint** shows how far to count from the root. **Continue** appears after a correct chord.
+1. Import `project.godot` into Godot.
+2. Wait for the WAV assets to import, then press **F6** with `scenes/main.tscn` open or **F5** to run the project. (Without an OpenXR runtime, the scene uses a desktop camera.)
+3. Choose **Play demo** to begin.
 
-| Action | Desktop preview | Quest Touch controllers |
-| --- | --- | --- |
-| Select/deselect a note | Click any key. **1**, **2**, and **3** also toggle **C4**, **E4**, and **G4** | Point a ray at a key and squeeze the trigger |
-| Use a lesson button | Click the button | Point a ray at the button and squeeze the trigger |
-| Hear selected notes together | **Space** | **A** or **X** |
-| Clear selection and stop playback | **C** | **B** or **Y** |
-| Place keyboard in front of the viewer | Fixed preview position | Squeeze either grip |
-
-To force desktop mode with a headset runtime installed run `godot --path . --xr-mode off`. Make sure Godot is in PATH for this! Otherwise just use the full executable.
+To force desktop mode with a headset runtime installed run `godot --path . --xr-mode off`. Make sure Godot is in PATH! Otherwise just use the full executable.
 
 ## How it works
 
-`ChordLab` builds the 15 keys from consecutive MIDI notes and connects each key to the same selection and playback code used by both input paths. Raised black keys leave the fronts of the white keys open for pointing. Black key labels show both names, such as D♯4 and E♭4.
+`ChordLab` builds the 15 keys from consecutive MIDI notes and connects each key to the same selection and playback code used by both input paths. `LessonData` defines the prompts, demons and exercises and `LessonFlow` plays the examples, manages progress and records results. The guide notes are distinguished by colours.
 
-`LessonData` defines the prompts, demonstrations and exercises. `LessonFlow` plays the examples, manages progress and records independent practice results. Colours distinguish the guidance notes.
-
-`ChordValidator.matches()` checks a selection against the exercise root and quality. It compares semitone intervals modulo 12 with 0–4–7 for major or 0–3–7 for minor. Exactly three notes are required. Inversions and octave substitutions work, and a fourth key counts as an extra note even when it doubles a chord tone.
+`ChordValidator.matches()` checks a selection against the exercise root and chord type. It compares semitone intervals modulo 12 with 0–4–7 for major or 0–3–7 for minor. Three notes are required.
 
 ## List of classes and assets
 
